@@ -1,0 +1,21 @@
+{
+    "name": "TinyMCE Editor",
+    "description": "Advanced WYSWIYG HTML editor",
+    "version": "8.0",
+    "api": "^8.0",
+    "url": "https://jdanek.eu/",
+    "class": "TinymcePlugin",
+    "langs": {
+        "tinymce": "Resources/languages/"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wysiwyg\\": "Component"
+        }
+    },
+    "events.admin": [
+        ["admin.head", "$this::onHead"],
+        ["admin.wysiwyg", "$this::onWysiwyg"],
+        ["core.javascript", "$this::onCoreJavascript"]
+    ]
+}
