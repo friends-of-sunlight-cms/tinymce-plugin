@@ -1,5 +1,5 @@
-Wysiwyg TinyMCE
-###############
+Wysiwyg TinyMCE Plugin
+######################
 
 Implementation of TinyMCE  - advanced WYSWIYG HTML editor
 
