@@ -1,7 +1,7 @@
 Wysiwyg TinyMCE Plugin
 ######################
 
-Implementation of TinyMCE  - advanced WYSWIYG HTML editor
+Integration of TinyMCE  - advanced WYSWIYG HTML editor
 
 .. contents::
 
