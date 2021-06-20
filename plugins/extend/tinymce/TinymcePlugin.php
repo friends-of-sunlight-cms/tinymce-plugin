@@ -6,6 +6,7 @@ use Sunlight\Core;
 use Sunlight\Plugin\Action\ConfigAction;
 use Sunlight\Plugin\ExtendPlugin;
 use Sunlight\Util\Form;
+use Sunlight\Plugin\Action\PluginAction;
 
 /**
  * TinyMCE plugin
@@ -16,7 +17,7 @@ class TinymcePlugin extends ExtendPlugin
 {
     private $wysiwygDetected = false;
 
-    protected function getConfigDefaults()
+    protected function getConfigDefaults(): array
     {
         return array(
             'editor_mode' => 'basic',
@@ -66,7 +67,7 @@ class TinymcePlugin extends ExtendPlugin
         );
     }
 
-    public function getAction($name)
+    public function getAction($name): ?PluginAction
     {
         if ($name == 'config') {
             return new CustomConfig($this);
@@ -78,7 +79,7 @@ class TinymcePlugin extends ExtendPlugin
 
 class CustomConfig extends ConfigAction
 {
-    protected function getFields()
+    protected function getFields(): array
     {
 
         $modes = array(
