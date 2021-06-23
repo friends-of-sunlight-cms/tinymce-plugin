@@ -1,5 +1,5 @@
 <?php
-return array(
+return [
     'mode' => 'Mode',
     'limited' => 'Limited',
     'basic' => 'Basic',
@@ -14,4 +14,4 @@ return array(
     'priv_max_basic' => 'Basic mode TO level',
     'priv_min_advanced' => 'Advanced mode FROM level',
     'priv_max_advanced' => 'Advanced mode TO level',
-);
+];

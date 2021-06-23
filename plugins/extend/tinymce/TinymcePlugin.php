@@ -19,7 +19,7 @@ class TinymcePlugin extends ExtendPlugin
 
     protected function getConfigDefaults(): array
     {
-        return array(
+        return [
             'editor_mode' => 'basic',
             'mode_by_priv' => false,
             // privileges
@@ -31,13 +31,13 @@ class TinymcePlugin extends ExtendPlugin
             'priv_max_advanced' => 10001,
             // filemanager
             'filemanager' => false,
-        );
+        ];
     }
 
     /**
      * @param array $args
      */
-    public function onHead(array $args)
+    public function onHead(array $args): void
     {
         if (_logged_in && !$this->isDisabled() && !$this->wysiwygDetected && (bool)Core::$userData['wysiwyg'] === true) {
             $args['js'][] = $this->getWebPath() . '/Resources/tinymce/tinymce.min.js';
@@ -48,7 +48,7 @@ class TinymcePlugin extends ExtendPlugin
     /**
      * @param $args
      */
-    public function onWysiwyg($args)
+    public function onWysiwyg($args): void
     {
         if ($args['available']) {
             $this->wysiwygDetected = true;
@@ -60,14 +60,14 @@ class TinymcePlugin extends ExtendPlugin
     /**
      * @param array $args
      */
-    public function onCoreJavascript(array $args)
+    public function onCoreJavascript(array $args): void
     {
-        $args['variables']['pluginWysiwyg'] = array(
+        $args['variables']['pluginWysiwyg'] = [
             'systemLang' => _language,
-        );
+        ];
     }
 
-    public function getAction($name): ?PluginAction
+    public function getAction(string $name): ?PluginAction
     {
         if ($name == 'config') {
             return new CustomConfig($this);
@@ -82,45 +82,45 @@ class CustomConfig extends ConfigAction
     protected function getFields(): array
     {
 
-        $modes = array(
+        $modes = [
             _lang('tinymce.limited') => 'limited',
             _lang('tinymce.basic') => 'basic',
             _lang('tinymce.advanced') => 'advanced'
-        );
+        ];
 
-        $fields = array(
-            'editor_mode' => array(
+        $fields = [
+            'editor_mode' => [
                 'label' => _lang('tinymce.mode'),
                 'input' => $this->createSelect('editor_mode', $modes, $this->plugin->getConfig()->offsetGet('editor_mode')),
                 'type' => 'text'
-            ),
-            'filemanager' => array(
+            ],
+            'filemanager' => [
                 'label' => _lang('tinymce.filemanager'),
                 'input' => $this->createInput('checkbox', 'filemanager'),
                 'type' => 'checkbox'
-            ),
-            'mode_by_priv' => array(
+            ],
+            'mode_by_priv' => [
                 'label' => _lang('tinymce.mode_by_priv'),
                 'input' => $this->createInput('checkbox', 'mode_by_priv'),
                 'type' => 'checkbox'
-            ),
-        );
+            ],
+        ];
 
-        foreach (array('limited', 'basic', 'advanced') as $v) {
-            foreach (array('min', 'max') as $v2) {
+        foreach (['limited', 'basic', 'advanced'] as $v) {
+            foreach (['min', 'max'] as $v2) {
                 $name = 'priv_' . $v2 . '_' . $v;
-                $fields[$name] = array(
+                $fields[$name] = [
                     'label' => _lang('tinymce.' . $name),
-                    'input' => $this->createInput('number', $name, array('min' => -1, 'max' => _priv_max_level)),
+                    'input' => $this->createInput('number', $name, ['min' => -1, 'max' => _priv_max_level]),
                     'type' => 'text'
-                );
+                ];
             }
         }
 
         return $fields;
     }
 
-    private function createSelect($name, $options, $default)
+    private function createSelect($name, $options, $default): string
     {
         $result = "<select name='config[" . $name . "]'>";
         foreach ($options as $k => $v) {
@@ -130,14 +130,14 @@ class CustomConfig extends ConfigAction
         return $result;
     }
 
-    private function createInput($type, $name, $attributes = null)
+    private function createInput($type, $name, $attributes = null): string
     {
         $result = "";
-        $attr = array();
+        $attr = [];
 
         if (is_array($attributes)) {
             foreach ($attributes as $k => $v) {
-                if (is_integer($k)) {
+                if (is_int($k)) {
                     $attr[] = $v . '=' . $v;
                 } else {
                     $attr[] = $k . '=' . $v;

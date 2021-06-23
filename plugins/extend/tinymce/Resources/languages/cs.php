@@ -1,5 +1,5 @@
 <?php
-return array(
+return [
     'mode' => 'Režim',
     'limited' => 'Omezený',
     'basic' => 'Základní',
@@ -14,4 +14,4 @@ return array(
     'priv_max_basic' => 'Základní režim DO úrovně',
     'priv_min_advanced' => 'Pokročilý režim OD úrovně',
     'priv_max_advanced' => 'Pokročilý režim DO úrovně',
-);
+];
