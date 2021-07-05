@@ -1,6 +1,7 @@
 <?php
 
 use Sunlight\Core;
+use Sunlight\User;
 use Wysiwyg\Wysiwyg;
 
 // load system core
@@ -19,7 +20,7 @@ $config = $pluginInstance->getConfig();
 $active_mode = $config->offsetGet('editor_mode');
 if ($config->offsetGet('mode_by_priv')) {
     foreach (['limited', 'basic', 'advanced'] as $mode) {
-        if (_priv_level >= $config->offsetGet('priv_min_' . $mode) && (_priv_level <= $config->offsetGet('priv_max_' . $mode))) {
+        if (User::getLevel() >= $config->offsetGet('priv_min_' . $mode) && (User::getLevel() <= $config->offsetGet('priv_max_' . $mode))) {
             $active_mode = $mode;
         }
     }
@@ -32,14 +33,14 @@ $wysiwyg->{'set' . ucfirst($active_mode) . 'Mode'}();
 // get props
 $setup = $wysiwyg->getProperties();
 
-if (_priv_fileaccess && $config->offsetGet('filemanager')) {
+if (User::hasPrivilege('fileaccess') && $config->offsetGet('filemanager')) {
     $setup = array_merge($setup, [
         'relative_urls' => false,
         'remove_script_host' => true,
-        'external_filemanager_path' => Core::$url . '/plugins/extend/tinymce/Resources/filemanager/',
+        'external_filemanager_path' => Core::getBaseUrl()->getPath() . '/plugins/extend/tinymce/Resources/filemanager/',
         'filemanager_title' => 'Responsive Filemanager',
         'external_plugins' => [
-            'filemanager' => Core::$url . '/plugins/extend/tinymce/Resources/filemanager/plugin.min.js',
+            'filemanager' => Core::getBaseUrl()->getPath() . '/plugins/extend/tinymce/Resources/filemanager/plugin.min.js',
         ],
         'filemanager_access_key' => Core::$appId,
     ]
