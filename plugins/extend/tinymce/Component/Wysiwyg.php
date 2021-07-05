@@ -3,6 +3,7 @@
 namespace Wysiwyg;
 
 use Sunlight\Router;
+use Sunlight\User;
 
 class Wysiwyg
 {
@@ -17,7 +18,7 @@ class Wysiwyg
             'menubar' => false,
             'theme' => 'modern',
             'plugins' => [
-                'advlist autolink lists link ' . (_priv_fileaccess ? 'image' : '') . ' charmap print preview anchor textcolor',
+                'advlist autolink lists link ' . (User::hasPrivilege('fileaccess') ? 'image' : '') . ' charmap print preview anchor textcolor',
                 'searchreplace visualblocks code fullscreen',
                 'insertdatetime media table contextmenu paste code help wordcount'
             ],
@@ -42,7 +43,7 @@ class Wysiwyg
     public function setBasicMode(): Wysiwyg
     {
         $this->properties['plugins'] = [
-            'advlist autolink lists link ' . (_priv_fileaccess ? 'image' : '') . ' charmap print preview anchor textcolor',
+            'advlist autolink lists link ' . (User::hasPrivilege('fileaccess') ? 'image' : '') . ' charmap print preview anchor textcolor',
             'searchreplace visualblocks code fullscreen',
             'insertdatetime media table contextmenu paste code help wordcount'
         ];
@@ -54,7 +55,7 @@ class Wysiwyg
     {
         $this->properties['plugins'] = [
             'print preview searchreplace autolink directionality visualblocks',
-            'visualchars fullscreen ' . (_priv_fileaccess ? 'image' : '') . ' link ' . (_priv_fileaccess ? 'media' : '') . ' template codesample table charmap hr',
+            'visualchars fullscreen ' . (User::hasPrivilege('fileaccess') ? 'image' : '') . ' link ' . (User::hasPrivilege('fileaccess') ? 'media' : '') . ' template codesample table charmap hr',
             'pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount',
             'imagetools contextmenu colorpicker textpattern code help'
         ];
