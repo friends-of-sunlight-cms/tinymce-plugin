@@ -2,6 +2,7 @@
 
 namespace Wysiwyg;
 
+use Sunlight\Core;
 use Sunlight\Router;
 use Sunlight\User;
 
@@ -14,7 +15,7 @@ class Wysiwyg
     {
         $this->properties = [
             'selector' => 'textarea.editor',
-            'language' => _language,
+            'language' => Core::$lang,
             'menubar' => false,
             'theme' => 'modern',
             'plugins' => [
