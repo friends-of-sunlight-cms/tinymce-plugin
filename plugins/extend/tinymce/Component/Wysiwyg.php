@@ -27,7 +27,7 @@ class Wysiwyg
             'entity_encoding' => 'raw',
             'image_advtab' => false,
             //'content_css' => array('//www.tinymce.com/css/codepen.min.css'),
-            'content_css' => [Router::generate('plugins/extend/tinymce/Resources/tinymce/custom_css/custom_codepen.min.css')],
+            'content_css' => [Router::path('plugins/extend/tinymce/Resources/tinymce/custom_css/custom_codepen.min.css')],
         ];
 
         if ($selector != '') {
