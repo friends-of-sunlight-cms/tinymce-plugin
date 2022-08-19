@@ -8,7 +8,6 @@ Integration of TinyMCE  - advanced WYSWIYG HTML editor
 Requirements
 ************
 
-- PHP 5.3+
 - SunLight CMS 8
 
 Installation
