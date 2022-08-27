@@ -37,10 +37,10 @@ if (User::hasPrivilege('fileaccess') && $config->offsetGet('filemanager')) {
     $setup = array_merge($setup, [
         'relative_urls' => false,
         'remove_script_host' => true,
-        'external_filemanager_path' => Core::getBaseUrl()->getPath() . '/plugins/extend/tinymce/Resources/filemanager/',
+        'external_filemanager_path' => Core::getBaseUrl()->getPath() . '/plugins/extend/tinymce/resources/filemanager/',
         'filemanager_title' => 'Responsive Filemanager',
         'external_plugins' => [
-            'filemanager' => Core::getBaseUrl()->getPath() . '/plugins/extend/tinymce/Resources/filemanager/plugin.min.js',
+            'filemanager' => Core::getBaseUrl()->getPath() . '/plugins/extend/tinymce/resources/filemanager/plugin.min.js',
         ],
         'filemanager_access_key' => Core::$appId,
     ]

@@ -41,8 +41,8 @@ class TinymcePlugin extends ExtendPlugin
     public function onHead(array $args): void
     {
         if (User::isLoggedIn() && !$this->isDisabled() && !$this->wysiwygDetected && (bool)User::$data['wysiwyg'] === true) {
-            $args['js'][] = $this->getWebPath() . '/Resources/tinymce/tinymce.min.js';
-            $args['js'][] = $this->getWebPath() . '/Resources/integration.php';
+            $args['js'][] = $this->getWebPath() . '/resources/tinymce/tinymce.min.js';
+            $args['js'][] = $this->getWebPath() . '/resources/integration.php';
         }
     }
 

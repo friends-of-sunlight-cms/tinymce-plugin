@@ -9,7 +9,7 @@
     "url": "https://github.com/friends-of-sunlight-cms/",
     "class": "TinymcePlugin",
     "langs": {
-        "tinymce": "Resources/languages/"
+        "tinymce": "resources/languages/"
     },
     "autoload": {
         "psr-4": {
