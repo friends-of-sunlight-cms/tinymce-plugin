@@ -13,7 +13,7 @@ Core::init('../../../../', [
 ]
 );
 // get plugin instance
-$pluginInstance = Core::$pluginManager->getExtend('tinymce');
+$pluginInstance = Core::$pluginManager->getPlugins()->getExtend('tinymce');
 $config = $pluginInstance->getConfig();
 
 // mode by priv
