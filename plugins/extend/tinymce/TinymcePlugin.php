@@ -9,14 +9,40 @@ use Sunlight\User;
 use Sunlight\Util\Form;
 use Sunlight\Plugin\Action\PluginAction;
 
-/**
- * TinyMCE plugin
- *
- * @author Jirka Daněk <jdanek.eu>
- */
 class TinymcePlugin extends ExtendPlugin
 {
+    /** @var bool */
     private $wysiwygDetected = false;
+
+    public function onHead(array $args): void
+    {
+        if (User::isLoggedIn() && !$this->isDisabled() && !$this->wysiwygDetected && (bool)User::$data['wysiwyg'] === true) {
+            $args['js'][] = $this->getWebPath() . '/resources/tinymce/tinymce.min.js';
+            $args['js'][] = $this->getWebPath() . '/resources/integration.php';
+        }
+    }
+
+    public function onWysiwyg(array $args): void
+    {
+        if ($args['available']) {
+            $this->wysiwygDetected = true;
+        } elseif (User::isLoggedIn() && !$this->isDisabled() && (bool)User::$data['wysiwyg'] === true) {
+            $args['available'] = true;
+        }
+    }
+
+    public function onCoreJavascript(array $args): void
+    {
+        $args['variables']['pluginWysiwyg'] = [
+            'systemLang' => Core::$lang,
+        ];
+    }
+
+    /**
+     * ============================================================================
+     *  EXTEND CONFIGURATION
+     * ============================================================================
+     */
 
     protected function getConfigDefaults(): array
     {
@@ -32,39 +58,6 @@ class TinymcePlugin extends ExtendPlugin
             'priv_max_advanced' => 10001,
             // filemanager
             'filemanager' => false,
-        ];
-    }
-
-    /**
-     * @param array $args
-     */
-    public function onHead(array $args): void
-    {
-        if (User::isLoggedIn() && !$this->isDisabled() && !$this->wysiwygDetected && (bool)User::$data['wysiwyg'] === true) {
-            $args['js'][] = $this->getWebPath() . '/resources/tinymce/tinymce.min.js';
-            $args['js'][] = $this->getWebPath() . '/resources/integration.php';
-        }
-    }
-
-    /**
-     * @param $args
-     */
-    public function onWysiwyg($args): void
-    {
-        if ($args['available']) {
-            $this->wysiwygDetected = true;
-        } elseif (User::isLoggedIn() && !$this->isDisabled() && (bool)User::$data['wysiwyg'] === true) {
-            $args['available'] = true;
-        }
-    }
-
-    /**
-     * @param array $args
-     */
-    public function onCoreJavascript(array $args): void
-    {
-        $args['variables']['pluginWysiwyg'] = [
-            'systemLang' => Core::$lang,
         ];
     }
 
