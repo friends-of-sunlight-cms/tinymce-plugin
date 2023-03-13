@@ -7,10 +7,10 @@ use Wysiwyg\Wysiwyg;
 // load system core
 require '../../../../system/bootstrap.php';
 Core::init('../../../../', [
-    'env' => Core::ENV_SCRIPT,
-    'session_enabled' => true,
-    'content_type' => 'text/javascript; charset=UTF-8'
-]
+        'env' => Core::ENV_SCRIPT,
+        'session_enabled' => true,
+        'content_type' => 'text/javascript; charset=UTF-8'
+    ]
 );
 // get plugin instance
 $pluginInstance = Core::$pluginManager->getPlugins()->getExtend('tinymce');
@@ -33,17 +33,22 @@ $wysiwyg->{'set' . ucfirst($active_mode) . 'Mode'}();
 // get props
 $setup = $wysiwyg->getProperties();
 
-if (User::hasPrivilege('fileaccess') && $config->offsetGet('filemanager')) {
+// file manager
+if (
+    User::hasPrivilege('fileaccess')
+    && Core::$pluginManager->getPlugins()->has('extend/wysiwyg-fm')
+    && $config->offsetGet('filemanager')
+) {
     $setup = array_merge($setup, [
-        'relative_urls' => false,
-        'remove_script_host' => true,
-        'external_filemanager_path' => Core::getBaseUrl()->getPath() . '/plugins/extend/tinymce/resources/filemanager/',
-        'filemanager_title' => 'Responsive Filemanager',
-        'external_plugins' => [
-            'filemanager' => Core::getBaseUrl()->getPath() . '/plugins/extend/tinymce/resources/filemanager/plugin.min.js',
-        ],
-        'filemanager_access_key' => Core::$appId,
-    ]
+            'relative_urls' => false,
+            'remove_script_host' => true,
+            'external_filemanager_path' => Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/resources/filemanager/',
+            'filemanager_title' => 'Responsive Filemanager',
+            'external_plugins' => [
+                'filemanager' => Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/resources/filemanager/plugin.min.js',
+            ],
+            'filemanager_access_key' => Core::$appId,
+        ]
     );
 }
 

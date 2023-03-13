@@ -4,10 +4,10 @@ namespace SunlightExtend\Tinymce;
 
 use Sunlight\Core;
 use Sunlight\Plugin\Action\ConfigAction;
+use Sunlight\Plugin\Action\PluginAction;
 use Sunlight\Plugin\ExtendPlugin;
 use Sunlight\User;
 use Sunlight\Util\Form;
-use Sunlight\Plugin\Action\PluginAction;
 
 class TinymcePlugin extends ExtendPlugin
 {
@@ -82,6 +82,12 @@ class CustomConfig extends ConfigAction
             _lang('tinymce.advanced') => 'advanced'
         ];
 
+        // filemanager plugin exists?
+        $fmAttr = [];
+        if (!Core::$pluginManager->getPlugins()->has('extend/wysiwyg-fm')) {
+            $fmAttr[] = 'disabled';
+        }
+
         $fields = [
             'editor_mode' => [
                 'label' => _lang('tinymce.mode'),
@@ -90,7 +96,7 @@ class CustomConfig extends ConfigAction
             ],
             'filemanager' => [
                 'label' => _lang('tinymce.filemanager'),
-                'input' => $this->createInput('checkbox', 'filemanager'),
+                'input' => $this->createInput('checkbox', 'filemanager', $fmAttr),
                 'type' => 'checkbox'
             ],
             'mode_by_priv' => [
