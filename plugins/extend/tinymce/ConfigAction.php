@@ -37,7 +37,7 @@ class ConfigAction extends BaseConfigAction
             ],
             'editor_in_boxes' => [
                 'label' => _lang('tinymce.editor_in_boxes'),
-                'input' => $this->createInput('checkbox', 'editor_in_boxes', $fmAttr),
+                'input' => $this->createInput('checkbox', 'editor_in_boxes'),
                 'type' => 'checkbox'
             ],
             'mode_by_priv' => [
