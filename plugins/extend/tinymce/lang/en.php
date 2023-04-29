@@ -6,6 +6,7 @@ return [
     'advanced' => 'Advanced',
 
     'filemanager' => 'File manager',
+    'editor_in_boxes' => 'Enable editor in edit boxes',
 
     'mode_by_priv' => 'Mode by privileges',
     'priv_min_limited' => 'Limited mode FROM level',

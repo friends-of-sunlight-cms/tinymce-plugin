@@ -2,6 +2,7 @@
 
 namespace SunlightExtend\Tinymce;
 
+use Sunlight\Admin\AdminState;
 use Sunlight\Core;
 use Sunlight\Plugin\Action\PluginAction;
 use Sunlight\Plugin\ExtendPlugin;
@@ -14,7 +15,23 @@ class TinymcePlugin extends ExtendPlugin
 
     public function onHead(array $args): void
     {
-        if (User::isLoggedIn() && !$this->isDisabled() && !$this->wysiwygDetected && (bool)User::$data['wysiwyg'] === true) {
+        /** @var AdminState $_admin */
+        global $_admin;
+        if (
+            User::isLoggedIn()
+            && !$this->isDisabled()
+            && !$this->wysiwygDetected
+            && (bool)User::$data['wysiwyg'] === true
+        ) {
+            // disable display of editor in boxes (optional)
+            if (
+                $_admin->currentModule === 'content-boxes-edit'
+                && $this->getConfig()->offsetGet('editor_in_boxes') === false
+            ) {
+                return;
+            }
+
+            // register assets
             $args['js'][] = $this->getWebPath() . '/resources/tinymce/tinymce.min.js';
             $args['js'][] = $this->getWebPath() . '/resources/integration.php';
         }
@@ -56,6 +73,7 @@ class TinymcePlugin extends ExtendPlugin
             'priv_max_advanced' => 10001,
             // filemanager
             'filemanager' => false,
+            'editor_in_boxes' => false,
         ];
     }
 
