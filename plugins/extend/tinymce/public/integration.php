@@ -42,10 +42,10 @@ if (
     $setup = array_merge($setup, [
             'relative_urls' => false,
             'remove_script_host' => true,
-            'external_filemanager_path' => Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/resources/filemanager/',
+            'external_filemanager_path' => Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/public/filemanager/',
             'filemanager_title' => 'Responsive Filemanager',
             'external_plugins' => [
-                'filemanager' => Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/resources/filemanager/plugin.min.js',
+                'filemanager' => Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/public/filemanager/plugin.min.js',
             ],
             'filemanager_access_key' => Core::$appId,
         ]

@@ -6,6 +6,7 @@ use Sunlight\Admin\AdminState;
 use Sunlight\Core;
 use Sunlight\Plugin\Action\PluginAction;
 use Sunlight\Plugin\ExtendPlugin;
+use Sunlight\Plugin\Plugin;
 use Sunlight\User;
 
 class TinymcePlugin extends ExtendPlugin
@@ -19,7 +20,7 @@ class TinymcePlugin extends ExtendPlugin
         global $_admin;
         if (
             User::isLoggedIn()
-            && !$this->isDisabled()
+            && !$this->hasStatus(Plugin::STATUS_DISABLED)
             && !$this->wysiwygDetected
             && (bool)User::$data['wysiwyg'] === true
         ) {
@@ -32,8 +33,8 @@ class TinymcePlugin extends ExtendPlugin
             }
 
             // register assets
-            $args['js'][] = $this->getWebPath() . '/resources/tinymce/tinymce.min.js';
-            $args['js'][] = $this->getWebPath() . '/resources/integration.php';
+            $args['js'][] = $this->getWebPath() . '/public/tinymce/tinymce.min.js';
+            $args['js'][] = $this->getWebPath() . '/public/integration.php';
         }
     }
 
@@ -41,7 +42,7 @@ class TinymcePlugin extends ExtendPlugin
     {
         if ($args['available']) {
             $this->wysiwygDetected = true;
-        } elseif (User::isLoggedIn() && !$this->isDisabled() && (bool)User::$data['wysiwyg'] === true) {
+        } elseif (User::isLoggedIn() && !$this->hasStatus(Plugin::STATUS_DISABLED) && (bool)User::$data['wysiwyg'] === true) {
             $args['available'] = true;
         }
     }
