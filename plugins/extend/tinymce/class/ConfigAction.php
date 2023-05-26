@@ -35,6 +35,11 @@ class ConfigAction extends BaseConfigAction
                 'input' => $this->createInput('checkbox', 'filemanager', $fmAttr),
                 'type' => 'checkbox'
             ],
+            'editor_in_perex' => [
+                'label' => _lang('tinymce.editor_in_perex'),
+                'input' => $this->createInput('checkbox', 'editor_in_perex'),
+                'type' => 'checkbox'
+            ],
             'editor_in_boxes' => [
                 'label' => _lang('tinymce.editor_in_boxes'),
                 'input' => $this->createInput('checkbox', 'editor_in_boxes'),

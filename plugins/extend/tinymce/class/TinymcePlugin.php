@@ -2,48 +2,62 @@
 
 namespace SunlightExtend\Tinymce;
 
-use Sunlight\Admin\AdminState;
 use Sunlight\Core;
 use Sunlight\Plugin\Action\PluginAction;
 use Sunlight\Plugin\ExtendPlugin;
-use Sunlight\Plugin\Plugin;
 use Sunlight\User;
 
 class TinymcePlugin extends ExtendPlugin
 {
+    private const SUPPORTED_FORMATS = [
+        'xml' => false,
+        'css' => false,
+        'js' => false,
+        'json' => false,
+        'php' => false,
+        'php-raw' => false,
+        'html' => true,
+    ];
+
     /** @var bool */
     private $wysiwygDetected = false;
 
-    public function onHead(array $args): void
+    public function onAdminInit(array $args): void
     {
-        /** @var AdminState $_admin */
         global $_admin;
-        if (
-            User::isLoggedIn()
-            && !$this->hasStatus(Plugin::STATUS_DISABLED)
-            && !$this->wysiwygDetected
-            && (bool)User::$data['wysiwyg'] === true
-        ) {
-            // disable display of editor in boxes (optional)
-            if (
-                $_admin->currentModule === 'content-boxes-edit'
-                && $this->getConfig()->offsetGet('editor_in_boxes') === false
-            ) {
-                return;
-            }
-
-            // register assets
-            $args['js'][] = $this->getWebPath() . '/public/tinymce/tinymce.min.js';
-            $args['js'][] = $this->getWebPath() . '/public/integration.php';
-        }
+        $_admin->wysiwygAvailable = true;
     }
 
-    public function onWysiwyg(array $args): void
+    public function onAdminHead(array $args): void
     {
-        if ($args['available']) {
-            $this->wysiwygDetected = true;
-        } elseif (User::isLoggedIn() && !$this->hasStatus(Plugin::STATUS_DISABLED) && (bool)User::$data['wysiwyg'] === true) {
-            $args['available'] = true;
+        $basePath = $this->getWebPath() . '/public';
+
+        // register assets
+        $args['js'][] = $basePath . '/tinymce/tinymce.min.js';
+        $args['js'][] = $basePath . '/integration.php';
+    }
+
+    function onAdminEditor(array $args): void
+    {
+        global $_admin;
+
+        $config = $this->getConfig();
+
+        if (
+            ($args['context'] === 'box-content' && $config['editor_in_boxes'] === false)
+            || ($args['context'] === 'page-perex' && $config['editor_in_perex'] === false)
+        ) {
+            $args['options']['mode'] = 'code';
+        }
+
+        if (
+            isset(self::SUPPORTED_FORMATS[$args['options']['format']])
+            && $args['options']['mode'] === 'default'
+            && $_admin->wysiwygAvailable
+            && User::isLoggedIn()
+            && User::$data['wysiwyg']
+        ) {
+            $this->enableEventGroup('tinymce');
         }
     }
 
@@ -75,6 +89,7 @@ class TinymcePlugin extends ExtendPlugin
             // filemanager
             'filemanager' => false,
             'editor_in_boxes' => false,
+            'editor_in_perex' => true,
         ];
     }
 

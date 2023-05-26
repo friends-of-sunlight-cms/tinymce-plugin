@@ -14,7 +14,7 @@ class Wysiwyg
     public function __construct($selector = '')
     {
         $this->properties = [
-            'selector' => 'textarea.editor',
+            'selector' => '.editor',
             'language' => Core::$lang,
             'menubar' => false,
             'theme' => 'modern',

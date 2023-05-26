@@ -2,6 +2,7 @@
 
 use Sunlight\Core;
 use Sunlight\User;
+use SunlightExtend\Tinymce\TinymcePlugin;
 use Wysiwyg\Wysiwyg;
 
 // load system core
@@ -13,44 +14,51 @@ Core::init('../../../../', [
     ]
 );
 // get plugin instance
-$pluginInstance = Core::$pluginManager->getPlugins()->getExtend('tinymce');
+$pluginInstance = TinymcePlugin::getInstance();
 $config = $pluginInstance->getConfig();
 
 // mode by priv
-$active_mode = $config->offsetGet('editor_mode');
-if ($config->offsetGet('mode_by_priv')) {
+$active_mode = $config['editor_mode'];
+if ($config['mode_by_priv']) {
     foreach (['limited', 'basic', 'advanced'] as $mode) {
-        if (User::getLevel() >= $config->offsetGet('priv_min_' . $mode) && (User::getLevel() <= $config->offsetGet('priv_max_' . $mode))) {
+        if (
+            User::getLevel() >= $config['priv_min_' . $mode]
+            && User::getLevel() <= $config['priv_max_' . $mode]
+        ) {
             $active_mode = $mode;
         }
     }
 }
 
-// create setup
-$wysiwyg = new Wysiwyg('textarea.editor:not([name=perex])');
-// set dynamic editor mode
-$wysiwyg->{'set' . ucfirst($active_mode) . 'Mode'}();
-// get props
-$setup = $wysiwyg->getProperties();
+// create default setup
+$defaultWysiwyg = new Wysiwyg('.editor[data-editor-mode=default]');
+call_user_func([$defaultWysiwyg, 'set' . ucfirst($active_mode) . 'Mode']);
+$defaultSetup = $defaultWysiwyg->getProperties();
 
 // file manager
 if (
     User::hasPrivilege('fileaccess')
     && Core::$pluginManager->getPlugins()->has('extend/wysiwyg-fm')
-    && $config->offsetGet('filemanager')
+    && $config['filemanager']
 ) {
-    $setup = array_merge($setup, [
+    $fmAsset = Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/public';
+    $defaultSetup = array_merge($defaultSetup, [
             'relative_urls' => false,
             'remove_script_host' => true,
-            'external_filemanager_path' => Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/public/filemanager/',
+            'external_filemanager_path' => $fmAsset . '/filemanager/',
             'filemanager_title' => 'Responsive Filemanager',
             'external_plugins' => [
-                'filemanager' => Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/public/filemanager/plugin.min.js',
+                'filemanager' => $fmAsset . '/filemanager/plugin.min.js',
             ],
-            'filemanager_access_key' => Core::$appId,
+            'filemanager_access_key' => Core::$secret,
         ]
     );
 }
 
+// create lite setup
+$liteWysiwyg = (new Wysiwyg('.editor[data-editor-mode=lite]'))->setLimitedMode();
+$liteSetup = $liteWysiwyg->getProperties();
+
 ?>
-$(document).ready(tinymce.init(<?php echo json_encode($setup); ?>));
+$(document).ready(tinymce.init(<?php echo json_encode($defaultSetup); ?>));
+$(document).ready(tinymce.init(<?php echo json_encode($liteSetup); ?>));

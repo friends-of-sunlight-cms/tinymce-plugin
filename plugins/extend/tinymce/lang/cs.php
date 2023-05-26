@@ -6,6 +6,7 @@ return [
     'advanced' => 'Pokročilý',
 
     'filemanager' => 'Správce souborů',
+    'editor_in_perex' => 'Povolit editor v perexu',
     'editor_in_boxes' => 'Povolit editor v editaci boxů',
 
     'mode_by_priv' => 'Režim podle oprávnění',

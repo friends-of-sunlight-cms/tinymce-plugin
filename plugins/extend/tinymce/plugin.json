@@ -19,8 +19,9 @@
         }
     },
     "events.admin": [
-        {"event": "admin.head", "method": "onHead"},
-        {"event": "admin.wysiwyg", "method": "onWysiwyg"},
-        {"event": "core.javascript", "method": "onCoreJavascript"}
+        {"event": "admin.init", "method": "onAdminInit"},
+        {"event": "admin.editor", "method": "onAdminEditor", "priority": 10},
+        {"event": "admin.head", "method": "onAdminHead", "group": "tinymce"},
+        {"event": "core.javascript", "method": "onCoreJavascript", "group": "tinymce"}
     ]
 }
