@@ -45,7 +45,10 @@ class TinymcePlugin extends ExtendPlugin
 
         if (
             ($args['context'] === 'box-content' && $config['editor_in_boxes'] === false)
-            || ($args['context'] === 'page-perex' && $config['editor_in_perex'] === false)
+            || (
+                ($args['context'] === 'page-perex' || $args['context'] === 'article-perex')
+                && $config['editor_in_perex'] === false
+            )
         ) {
             $args['options']['mode'] = 'code';
         }
