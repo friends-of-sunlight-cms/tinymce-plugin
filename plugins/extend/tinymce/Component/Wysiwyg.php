@@ -16,6 +16,8 @@ class Wysiwyg
         $this->properties = [
             'selector' => '.editor',
             'language' => Core::$lang,
+            'relative_urls' => false,
+            'document_base_url' => Core::getBaseUrl()->build(),
             'menubar' => false,
             'theme' => 'modern',
             'plugins' => [
