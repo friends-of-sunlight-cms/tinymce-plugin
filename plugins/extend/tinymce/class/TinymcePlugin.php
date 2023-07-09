@@ -3,7 +3,6 @@
 namespace SunlightExtend\Tinymce;
 
 use Sunlight\Core;
-use Sunlight\Plugin\Action\PluginAction;
 use Sunlight\Plugin\ExtendPlugin;
 use Sunlight\User;
 
@@ -30,11 +29,9 @@ class TinymcePlugin extends ExtendPlugin
 
     public function onAdminHead(array $args): void
     {
-        $basePath = $this->getWebPath() . '/public';
-
         // register assets
-        $args['js'][] = $basePath . '/tinymce/tinymce.min.js';
-        $args['js'][] = $basePath . '/integration.php';
+        $args['js'][] = $this->getAssetPath('public/tinymce/tinymce.min.js');
+        $args['js'][] = $this->getAssetPath('public/integration.php');
     }
 
     function onAdminEditor(array $args): void
