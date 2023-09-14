@@ -16,21 +16,26 @@ class Wysiwyg
         $this->properties = [
             'selector' => '.editor',
             'language' => Core::$lang,
+            'language_url' => Router::path('plugins/extend/tinymce/public/langs/' . Core::$lang . '.js'),
             'relative_urls' => false,
             'document_base_url' => Core::getBaseUrl()->build(),
             'menubar' => false,
-            'theme' => 'modern',
+            'theme' => 'silver',
             'plugins' => [
-                'advlist autolink lists link ' . (User::hasPrivilege('fileaccess') ? 'image' : '') . ' charmap print preview anchor textcolor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table contextmenu paste code help wordcount'
+                'advlist', 'autolink', 'lists', 'link',  'charmap', 'preview', 'anchor',
+                'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
             ],
             'toolbar' => 'undo redo | bold italic forecolor |  formatselect  | removeformat help',
             'entity_encoding' => 'raw',
             'image_advtab' => false,
             //'content_css' => array('//www.tinymce.com/css/codepen.min.css'),
-            'content_css' => [Router::path('plugins/extend/tinymce/public/tinymce/custom_css/custom_codepen.min.css')],
+            //'content_css' => [Router::path('plugins/extend/tinymce/public/tinymce/custom_css/custom_codepen.min.css')],
         ];
+
+        if(User::hasPrivilege('fileaccess')) {
+            $this->properties['plugins'][] = 'image';
+        }
 
         if ($selector != '') {
             $this->properties['selector'] = $selector;
@@ -46,10 +51,15 @@ class Wysiwyg
     public function setBasicMode(): Wysiwyg
     {
         $this->properties['plugins'] = [
-            'advlist autolink lists link ' . (User::hasPrivilege('fileaccess') ? 'image' : '') . ' charmap print preview anchor textcolor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table contextmenu paste code help wordcount'
+            'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview', 'anchor',
+            'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
         ];
+
+        if(User::hasPrivilege('fileaccess')) {
+            $this->properties['plugins'][] = 'image';
+        }
+
         $this->properties['toolbar'] = 'insert | undo redo |  formatselect | bold italic forecolor backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code help';
         return $this;
     }
@@ -57,11 +67,20 @@ class Wysiwyg
     public function setAdvancedMode(): Wysiwyg
     {
         $this->properties['plugins'] = [
-            'print preview searchreplace autolink directionality visualblocks',
-            'visualchars fullscreen ' . (User::hasPrivilege('fileaccess') ? 'image' : '') . ' link ' . (User::hasPrivilege('fileaccess') ? 'media' : '') . ' template codesample table charmap hr',
-            'pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount',
-            'imagetools contextmenu colorpicker textpattern code help'
+            'preview', 'searchreplace', 'autolink', 'directionality', 'visualblocks',
+            'visualchars', 'fullscreen' ,'link', 'codesample', 'table', 'charmap',
+            'pagebreak', 'nonbreaking', 'anchor', 'insertdatetime', 'advlist', 'lists',  'wordcount',
+            'code', 'help'
         ];
+
+        if(User::hasPrivilege('fileaccess')) {
+            $this->properties['plugins'][] = 'image';
+        }
+
+        if (User::hasPrivilege('fileaccess')) {
+            $this->properties['plugins'][] = 'media';
+        }
+
         $this->properties['toolbar'] = 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat';
         $this->properties['menubar'] = true;
         $this->properties['image_advtab'] = true;
@@ -73,6 +92,4 @@ class Wysiwyg
     {
         return $this->properties;
     }
-
 }
-
