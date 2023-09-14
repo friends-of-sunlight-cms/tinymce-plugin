@@ -1,6 +1,6 @@
 <?php
 
-namespace Wysiwyg;
+namespace SunlightExtend\Tinymce;
 
 use Sunlight\Core;
 use Sunlight\Router;

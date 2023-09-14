@@ -1,18 +1,14 @@
 {
     "$schema": "../../../system/schema/extend.json",
     "name": "TinyMCE Editor",
-    "description": "Advanced WYSWIYG HTML editor",
-    "version": "0.9.2",
-    "environment": {
-        "system": "^8.0"
-    },
-    "dependencies": {
-        "fosc-lib": ">=0.9.2"
-    },
+    "description": "Advanced WYSIWYG HTML editor",
     "authors": [
         {"name": "Friends of Sunlight CMS", "url": "https://github.com/friends-of-sunlight-cms/"}
     ],
-    "class": "TinymcePlugin",
+    "version": "1.0.0",
+    "environment": {
+        "system": "^8.0"
+    },
     "config_defaults": {
         "editor_mode": "basic",
         "mode_by_priv": false,
@@ -22,25 +18,31 @@
         "priv_max_basic": 1000,
         "priv_min_advanced": 10000,
         "priv_max_advanced": 10001,
-      "filemanager": false,
-    "editor_in_boxes": false,
-    "editor_in_perex": true
-  },
-  "actions": {
-    "config": "ConfigAction"
-  },
-  "langs": {
-    "tinymce": "lang"
-  },
-  "autoload": {
-    "psr-4": {
-      "Wysiwyg\\": "Component"
+        "filemanager": false,
+        "editor_in_boxes": false,
+        "editor_in_perex": true
+    },
+    "actions": {
+        "config": "ConfigAction"
+    },
+    "langs": {
+        "tinymce": "lang"
+    },
+    "events.admin": [
+        {"event": "admin.init", "script": "event/admin_init.php"},
+        {"event": "admin.editor", "script": "event/admin_editor.php", "priority": 10},
+        {"event": "admin.head", "script": "event/admin_head.php", "group": "tinymce"},
+        {"event": "core.javascript", "script": "event/core_javascript.php", "group": "tinymce"}
+    ],
+    "extra": {
+        "supported_formats": {
+            "xml": false,
+            "css": false,
+            "js": false,
+            "json": false,
+            "php": false,
+            "php-raw": false,
+            "html": true
+       }
     }
-  },
-  "events.admin": [
-    {"event": "admin.init", "method": "onAdminInit"},
-    {"event": "admin.editor", "method": "onAdminEditor", "priority": 10},
-    {"event": "admin.head", "method": "onAdminHead", "group": "tinymce"},
-    {"event": "core.javascript", "method": "onCoreJavascript", "group": "tinymce"}
-  ]
 }

@@ -2,19 +2,18 @@
 
 use Sunlight\Core;
 use Sunlight\User;
-use SunlightExtend\Tinymce\TinymcePlugin;
-use Wysiwyg\Wysiwyg;
+use SunlightExtend\Tinymce\Wysiwyg;
 
 // load system core
 require '../../../../system/bootstrap.php';
-Core::init('../../../../', [
-        'env' => Core::ENV_SCRIPT,
-        'session_enabled' => true,
-        'content_type' => 'text/javascript; charset=UTF-8'
-    ]
-);
+Core::init([
+    'env' => Core::ENV_SCRIPT,
+    'session_enabled' => true,
+    'content_type' => 'text/javascript; charset=UTF-8'
+]);
+
 // get plugin instance
-$pluginInstance = TinymcePlugin::getInstance();
+$pluginInstance = Core::$pluginManager->getPlugins()->get('extend/tinymce');
 $config = $pluginInstance->getConfig();
 
 // mode by priv
