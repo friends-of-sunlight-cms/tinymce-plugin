@@ -10,7 +10,7 @@
         "system": "^8.0"
     },
     "config_defaults": {
-        "editor_mode": "basic",
+        "editor_mode": "advanced",
         "mode_by_priv": false,
         "priv_min_limited": 1,
         "priv_max_limited": 500,
@@ -18,9 +18,9 @@
         "priv_max_basic": 1000,
         "priv_min_advanced": 10000,
         "priv_max_advanced": 10001,
-        "filemanager": false,
+        "filemanager": true,
         "editor_in_boxes": false,
-        "editor_in_perex": true
+        "editor_in_perex": false
     },
     "actions": {
         "config": "ConfigAction"

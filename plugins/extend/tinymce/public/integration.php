@@ -5,7 +5,7 @@ use Sunlight\User;
 use SunlightExtend\Tinymce\Wysiwyg;
 
 // load system core
-require '../../../../system/bootstrap.php';
+require __DIR__ . '/../../../../system/bootstrap.php';
 Core::init([
     'env' => Core::ENV_SCRIPT,
     'session_enabled' => true,
@@ -35,15 +35,18 @@ call_user_func([$defaultWysiwyg, 'set' . ucfirst($active_mode) . 'Mode']);
 $defaultSetup = $defaultWysiwyg->getProperties();
 
 // file manager
+/*
 if (
     User::hasPrivilege('fileaccess')
     && Core::$pluginManager->getPlugins()->has('extend/wysiwyg-fm')
     && $config['filemanager']
 ) {
+*/
     $fmAsset = Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/public';
     $defaultSetup = array_merge($defaultSetup, [
             'relative_urls' => false,
             'remove_script_host' => true,
+            'file_picker_types' => 'file image media',
             'external_filemanager_path' => $fmAsset . '/filemanager/',
             'filemanager_title' => 'Responsive Filemanager',
             'external_plugins' => [
@@ -52,7 +55,7 @@ if (
             'filemanager_access_key' => Core::$secret,
         ]
     );
-}
+//}
 
 // create lite setup
 $liteWysiwyg = (new Wysiwyg('.editor[data-editor-mode=lite]'))->setLimitedMode();
@@ -60,4 +63,5 @@ $liteSetup = $liteWysiwyg->getProperties();
 
 ?>
 $(document).ready(tinymce.init(<?php echo json_encode($defaultSetup); ?>));
+
 $(document).ready(tinymce.init(<?php echo json_encode($liteSetup); ?>));
