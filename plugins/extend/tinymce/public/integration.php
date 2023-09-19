@@ -35,13 +35,11 @@ call_user_func([$defaultWysiwyg, 'set' . ucfirst($active_mode) . 'Mode']);
 $defaultSetup = $defaultWysiwyg->getProperties();
 
 // file manager
-/*
 if (
     User::hasPrivilege('fileaccess')
     && Core::$pluginManager->getPlugins()->has('extend/wysiwyg-fm')
     && $config['filemanager']
 ) {
-*/
     $fmAsset = Core::getBaseUrl()->getPath() . '/plugins/extend/wysiwyg-fm/public';
     $defaultSetup = array_merge($defaultSetup, [
             'relative_urls' => false,
@@ -55,7 +53,7 @@ if (
             'filemanager_access_key' => Core::$secret,
         ]
     );
-//}
+}
 
 // create lite setup
 $liteWysiwyg = (new Wysiwyg('.editor[data-editor-mode=lite]'))->setLimitedMode();
