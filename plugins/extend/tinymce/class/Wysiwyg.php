@@ -15,6 +15,7 @@ class Wysiwyg
     {
         $this->properties = [
             'selector' => '.editor',
+            'promotion' => false,
             'language' => Core::$lang,
             'language_url' => Router::path('plugins/extend/tinymce/public/langs/' . Core::$lang . '.js'),
             'relative_urls' => false,
