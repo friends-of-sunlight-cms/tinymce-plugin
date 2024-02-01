@@ -5,9 +5,9 @@
     "authors": [
         {"name": "Friends of Sunlight CMS", "url": "https://github.com/friends-of-sunlight-cms/"}
     ],
-    "version": "1.0.1",
+    "version": "1.1.0",
     "environment": {
-        "system": "^8.0"
+        "system": "^8.1"
     },
     "config_defaults": {
         "editor_mode": "advanced",
@@ -18,7 +18,7 @@
         "priv_max_basic": 1000,
         "priv_min_advanced": 10000,
         "priv_max_advanced": 10001,
-        "filemanager": true,
+        "filemanager": false,
         "editor_in_boxes": false,
         "editor_in_perex": false
     },
