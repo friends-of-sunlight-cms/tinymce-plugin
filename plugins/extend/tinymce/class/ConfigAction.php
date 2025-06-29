@@ -2,7 +2,6 @@
 
 namespace SunlightExtend\Tinymce;
 
-use Fosc\Feature\Plugin\Config\FieldGenerator;
 use Sunlight\Core;
 use Sunlight\Plugin\Action\ConfigAction as BaseConfigAction;
 use Sunlight\User;
